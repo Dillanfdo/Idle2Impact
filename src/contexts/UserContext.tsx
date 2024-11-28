@@ -23,7 +23,16 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    debugger;
+    // const validEmail = "dillan.fernando@ideas2it.com";
+    // const mockUser: User = {
+    //   id: 1,
+    //   name: "Dillan Fernando",
+    //   email: validEmail,
+    //   posts: 5,
+    //   solutions: 3,
+    //   favorites: [1, 3, 5],
+    // };
+    // setUser(mockUser);
     const userData = await loginUser(email, password);
     if(userData.status==1){
       const parsedData = JSON.parse(userData.data).Table;
