@@ -44,7 +44,7 @@ const Login: React.FC = () => {
   return (
     <Grid2 container flexDirection={"column"}>
       <Typography variant="h2" margin={"20px auto"}>
-        Login to IdletoImpact
+        Login  to IdletoImpact
       </Typography>
       <form onSubmit={handleLogin}>
         <Box
