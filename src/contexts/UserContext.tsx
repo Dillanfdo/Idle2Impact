@@ -1,5 +1,6 @@
 // src/contexts/UserContext.tsx
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { loginUser } from "../apis/apiFunctions";
 
 type User = {
   id: number;
@@ -12,7 +13,7 @@ type User = {
 
 type UserContextType = {
   user: User | null;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 };
 
@@ -21,36 +22,17 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (email: string, password: string): boolean => {
-    const validEmail = "dillan.fernando@ideas2it.com";
-    const mockUser: User = {
-      id: 1,
-      name: "Dillan Fernando",
-      email: validEmail,
-      posts: 5,
-      solutions: 3,
-      favorites: [1, 3, 5],
-    };
-    setUser(mockUser);
-    return true;
-    // const validEmail = "dillan.fernando@ideas2it.com";
-    const validPassword = "Dildish*10";
-
-    if (email === validEmail && password === validPassword) {
-      // Simulate fetching user data after successful login
-      const mockUser: User = {
-        id: 1,
-        name: "Dillan Fernando",
-        email: validEmail,
-        posts: 5,
-        solutions: 3,
-        favorites: [1, 3, 5],
-      };
-
-      setUser(mockUser);
+  const login = async (email: string, password: string): Promise<boolean> => {
+    debugger;
+    const userData = await loginUser(email, password);
+    if(userData.status==1){
+      const parsedData = JSON.parse(userData.data).Table;
+      setUser(parsedData);
       return true;
+    }else{
+      return false;
     }
-    return false;
+
   };
 
   const logout = () => {

@@ -1,7 +1,18 @@
 import { Box, Card, Chip, Grid2, Link, Typography } from "@mui/material";
-import data from "../jsons/problemStatementList.json";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getposts } from "../apis/apiFunctions";
+
+// Define the type for post data
+interface Post {
+  task_id: string;
+  problem_statement: string;
+  description: string;
+  owner: { name: string };
+  dead_line: string;
+  tech_stack: string[];
+}
 
 const CardDetail = ({ label, value }: { label: string; value: string }) => {
   return (
@@ -20,11 +31,34 @@ const TechStackTag = ({ techStack }: { techStack: string }) => {
 
 const PostFeed = () => {
   const navigate = useNavigate();
+  const [postData, setPostData] = useState<Post[]>([]); // Corrected useState with type annotation
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const result = await getposts();
+        console.log("Fetched result:", result); 
+        if (result.status === 1) {
+          const data = Array.isArray(result.data) ? result.data : [];
+          const test= JSON.parse(result.data).Table;
+          setPostData(test);
+        } else {
+          setPostData([]); 
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setPostData([]); 
+      }
+    };
+    fetchPosts();
+  }, []); 
+  
 
   return (
     <Grid2 container gap={2} justifyContent={"center"} margin={"30px"}>
-      {data.map((d) => (
+      {postData.map((d) => (
         <Card
+          key={d.task_id} // Ensure to add key for mapping
           sx={{
             height: "200px",
             display: "flex",
@@ -35,12 +69,12 @@ const PostFeed = () => {
             boxShadow: "4px 9px 10px #cabebe",
             cursor: "pointer",
           }}
-          onClick={() => navigate(`/problem/${d.problemId}`)}
+          onClick={() => navigate(`/problem/${d.task_id}`)}
         >
           <Typography variant="h5" sx={{ mb: 1 }}>
-            {d.title}
+            {d.problem_statement}
           </Typography>
-          <Typography variant="body1">{d.summary + d.summary}</Typography>
+          <Typography variant="body1">{d.description + d.description}</Typography>
           <Box
             sx={{
               display: "flex",
@@ -48,15 +82,16 @@ const PostFeed = () => {
               gap: 2,
             }}
           >
-            <CardDetail label={"Owner:"} value={d.owner.name} />
+            <CardDetail label={"Owner:"} value="Venkat" />
             <CardDetail
               label={"Deadline:"}
-              value={moment(d.deadline).format("DD/MM/YYYY")}
+              value={moment(d.dead_line).format("DD/MM/YYYY")}
             />
             <Box sx={{ display: "flex", gap: 1 }}>
-              {d.tech_stack.map((techStack) => (
-                <TechStackTag techStack={techStack} />
-              ))}
+              {Array.isArray(d.tech_stack) &&
+                d.tech_stack.map((techStack) => (
+                  <TechStackTag key={techStack} techStack={techStack} />
+                ))}
             </Box>
           </Box>
         </Card>

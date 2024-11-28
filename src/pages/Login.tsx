@@ -27,11 +27,11 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const isLoggedIn = login(email, password);
+    const isLoggedIn = await login(email, password); 
     if (isLoggedIn) {
-      navigate("/");
+      navigate("/"); 
     } else {
       setError("Invalid email or password");
     }

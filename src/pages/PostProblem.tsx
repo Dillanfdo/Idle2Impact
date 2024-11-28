@@ -15,6 +15,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs, { Dayjs } from "dayjs";
+import { addPost } from "../apis/apiFunctions";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   title: string;
@@ -34,7 +36,7 @@ const ProjectForm: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [techStack, setTechStack] = useState<string[]>([]);
   const [techInput, setTechInput] = useState<string>("");
-
+  const navigate = useNavigate();
   // Handle File Upload
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -63,10 +65,52 @@ const ProjectForm: React.FC = () => {
     setTechStack((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log("Form Data:", data);
     console.log("Uploaded Files:", uploadedFiles);
     console.log("Tech Stack:", techStack);
+    try {
+      const postdata: any = {
+        ProblemStatement: data.title,
+        Description: data.description,
+        TechStack: "Dotnet",
+        ExpectedResult: data.expectedResult,
+        DeadLine: data.deadline,
+        Files: []
+      };
+
+      const filePromises = uploadedFiles.map((file: File) => {
+        return new Promise<void>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            try {
+              const fileBase64 = reader.result as string;
+              postdata.Files.push({
+                fileName: file.name,
+                fileType: file.type,
+                fileContent: fileBase64
+              });
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file); 
+        });
+      });
+      await Promise.all(filePromises);
+debugger;
+      const result = await addPost(postdata);
+      if (result.status == 1) {
+        alert("Data submitted successfully!");
+        navigate("/"); 
+      }
+    } catch (error) {
+
+      console.error("Error submitting data:", error);
+      alert("An error occurred while submitting the data.");
+    }
   };
 
   return (
