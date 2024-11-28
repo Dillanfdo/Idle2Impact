@@ -1,0 +1,62 @@
+[
+    {
+        "id": 0,
+        "problem_id": 0,
+        "suggestion": "Solution suggestion 1",
+        "poc_url": "https://github.com/example/poc1"
+    },
+    {
+        "id": 1,
+        "problem_id": 1,
+        "suggestion": "Solution suggestion 2",
+        "poc_url": "https://github.com/example/poc2"
+    },
+    {
+        "id": 2,
+        "problem_id": 2,
+        "suggestion": "Solution suggestion 3",
+        "poc_url": "https://github.com/example/poc3"
+    },
+    {
+        "id": 3,
+        "problem_id": 3,
+        "suggestion": "Solution suggestion 4",
+        "poc_url": "https://github.com/example/poc4"
+    },
+    {
+        "id": 4,
+        "problem_id": 4,
+        "suggestion": "Solution suggestion 5",
+        "poc_url": "https://github.com/example/poc5"
+    },
+    {
+        "id": 5,
+        "problem_id": 5,
+        "suggestion": "Solution suggestion 6",
+        "poc_url": "https://github.com/example/poc6"
+    },
+    {
+        "id": 6,
+        "problem_id": 6,
+        "suggestion": "Solution suggestion 7",
+        "poc_url": "https://github.com/example/poc7"
+    },
+    {
+        "id": 7,
+        "problem_id": 7,
+        "suggestion": "Solution suggestion 8",
+        "poc_url": "https://github.com/example/poc8"
+    },
+    {
+        "id": 8,
+        "problem_id": 8,
+        "suggestion": "Solution suggestion 9",
+        "poc_url": "https://github.com/example/poc9"
+    },
+    {
+        "id": 9,
+        "problem_id": 9,
+        "suggestion": "Solution suggestion 10",
+        "poc_url": "https://github.com/example/poc10"
+    }
+]

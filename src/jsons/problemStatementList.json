@@ -1,0 +1,142 @@
+[
+  {
+    "problemId": "P001",
+    "title": "Automating Test Case Execution",
+    "description": "Our quality assurance process heavily relies on manual execution of test cases, which is both time-consuming and prone to human error. With the growing complexity of our projects, ensuring comprehensive test coverage has become a challenge. The lack of automation also makes it difficult to identify regressions early in the development cycle, delaying delivery timelines and increasing risks. A robust automation framework is required to streamline the execution of test cases and integrate with the CI/CD pipeline. This project aims to significantly enhance product quality while reducing the overall testing cycle time.",
+    "tech_stack": ["Selenium", "Java", "Jenkins"],
+    "deadline": "2024-12-01",
+    "owner": {
+      "name": "Alice Johnson",
+      "email": "alice.johnson@ideas2it.com"
+    },
+    "created_date": "2024-11-10",
+    "project": "QA Process Optimization",
+    "summary": "Automate repetitive test case execution to improve efficiency and accuracy."
+  },
+  {
+    "problemId": "P002",
+    "title": "Improving CI/CD Pipeline",
+    "description": "The current CI/CD pipeline is plagued with inefficiencies, including slow build times, frequent failures, and lack of automated rollbacks. Developers often spend significant time debugging pipeline issues instead of focusing on coding. Configuration mismatches between environments further complicate deployments, leading to delays and downtime. Automated deployment strategies like blue-green and canary should be incorporated to improve efficiency. A successful implementation will drastically improve deployment speed and system reliability.",
+    "tech_stack": ["GitLab CI/CD", "Docker", "Kubernetes"],
+    "deadline": "2024-12-15",
+    "owner": {
+      "name": "Brian Miller",
+      "email": "brian.miller@ideas2it.com"
+    },
+    "created_date": "2024-11-05",
+    "project": "DevOps Modernization",
+    "summary": "Redesign CI/CD pipeline to enhance reliability, speed, and automation."
+  },
+  {
+    "problemId": "P003",
+    "title": "Data Pipeline for Real-Time Analytics",
+    "description": "Our current analytics system relies on batch processing, which delays the availability of critical business metrics. Decision-makers need real-time insights to respond to market conditions, but our system fails to provide this. Technologies like Kafka can be used for event streaming, while scalable cloud solutions handle processing. Integrating this pipeline with our analytics tools will enable real-time dashboards that drive decision-making. This project will significantly improve our competitive edge by providing actionable insights instantly.",
+    "tech_stack": ["Apache Kafka", "Python", "AWS Lambda"],
+    "deadline": "2025-01-10",
+    "owner": {
+      "name": "Sophia Lee",
+      "email": "sophia.lee@ideas2it.com"
+    },
+    "created_date": "2024-11-12",
+    "project": "Data Transformation Initiative",
+    "summary": "Build a real-time data pipeline to deliver immediate business insights."
+  },
+  {
+    "problemId": "P004",
+    "title": "Enhancing Security for Microservices",
+    "description": "The increasing adoption of microservices in our architecture has exposed several security vulnerabilities. API endpoints are unprotected, making them susceptible to unauthorized access and data breaches. We need to implement a comprehensive security framework using OAuth 2.0 for secure access, encrypting sensitive data, and setting up a central identity provider. Regular security audits and penetration tests will also help mitigate risks. The goal is to protect user data and ensure compliance with industry standards.",
+    "tech_stack": ["OAuth 2.0", "Spring Boot", "NGINX"],
+    "deadline": "2025-02-01",
+    "owner": {
+      "name": "David Patel",
+      "email": "david.patel@ideas2it.com"
+    },
+    "created_date": "2024-11-14",
+    "project": "Microservices Security Upgrade",
+    "summary": "Enhance security for microservices with centralized authentication and encryption."
+  },
+  {
+    "problemId": "P005",
+    "title": "Developing Custom UI Components",
+    "description": "The user interface of our application lacks uniformity, with inconsistent styles and behavior across modules. The absence of a design system means no standard guidelines for UI development, leading to fragmented code and user dissatisfaction. Creating a reusable library of UI components adhering to modern design principles will resolve these issues. Comprehensive documentation and examples will aid developer adoption. This initiative will not only improve user satisfaction but also reduce development time for new features.",
+    "tech_stack": ["React", "TypeScript", "SCSS"],
+    "deadline": "2025-01-05",
+    "owner": {
+      "name": "Maya Brown",
+      "email": "maya.brown@ideas2it.com"
+    },
+    "created_date": "2024-11-08",
+    "project": "UI Modernization Toolkit",
+    "summary": "Create a reusable library of UI components to ensure design consistency."
+  },
+  {
+    "problemId": "P006",
+    "title": "Optimizing Database Performance",
+    "description": "Frequent database slowdowns and inefficient queries are impacting the overall performance of our application. Complex joins, lack of proper indexing, and outdated schema designs are major contributors. Current systems struggle with high read/write loads, especially during peak hours. Implementing database optimizations such as caching strategies, query tuning, and database partitioning will alleviate these issues. This will enhance application performance and ensure system scalability as user demands grow.",
+    "tech_stack": ["MySQL", "Redis", "ORM"],
+    "deadline": "2025-01-20",
+    "owner": {
+      "name": "Ethan James",
+      "email": "ethan.james@ideas2it.com"
+    },
+    "created_date": "2024-11-09",
+    "project": "Database Optimization",
+    "summary": "Optimize database performance to handle high traffic and complex queries."
+  },
+  {
+    "problemId": "P007",
+    "title": "Integrating Third-Party APIs Seamlessly",
+    "description": "Our platform frequently encounters issues integrating with third-party APIs, causing delays in delivering critical features. These challenges include inconsistent API responses, authentication failures, and performance bottlenecks. Developing a middleware layer to standardize API interactions and implementing robust retry mechanisms are crucial steps. This project will enhance reliability and ensure smoother interactions with external services. It will also improve the overall user experience by providing consistent performance.",
+    "tech_stack": ["Node.js", "Axios", "GraphQL"],
+    "deadline": "2025-02-15",
+    "owner": {
+      "name": "Liam Wilson",
+      "email": "liam.wilson@ideas2it.com"
+    },
+    "created_date": "2024-11-16",
+    "project": "API Integration Framework",
+    "summary": "Develop middleware for seamless third-party API integration."
+  },
+  {
+    "problemId": "P008",
+    "title": "Implementing Advanced Analytics",
+    "description": "Our existing analytics tools lack predictive capabilities, making it difficult to anticipate customer trends or operational inefficiencies. There is no system in place for data forecasting or real-time anomaly detection. Incorporating machine learning models into the analytics pipeline will solve this issue. Technologies like TensorFlow and Python will be employed for building and training models. This will allow us to generate actionable insights and predict future outcomes accurately.",
+    "tech_stack": ["Python", "TensorFlow", "AWS SageMaker"],
+    "deadline": "2025-03-01",
+    "owner": {
+      "name": "Emma Davis",
+      "email": "emma.davis@ideas2it.com"
+    },
+    "created_date": "2024-11-15",
+    "project": "Advanced Analytics Platform",
+    "summary": "Add predictive analytics capabilities to enhance decision-making."
+  },
+  {
+    "problemId": "P009",
+    "title": "Enhancing Mobile App Performance",
+    "description": "Our mobile application suffers from high memory consumption and slow loading times, particularly on older devices. Inefficient network calls and unoptimized code are contributing factors. Techniques like lazy loading, code splitting, and optimizing image sizes can significantly improve performance. Additionally, implementing a robust offline mode using caching will improve user experience. This project will result in faster app responses and higher user satisfaction.",
+    "tech_stack": ["React Native", "Redux", "SQLite"],
+    "deadline": "2025-03-20",
+    "owner": {
+      "name": "Ava Martinez",
+      "email": "ava.martinez@ideas2it.com"
+    },
+    "created_date": "2024-11-18",
+    "project": "Mobile Optimization",
+    "summary": "Optimize mobile app performance to ensure faster load times and lower resource usage."
+  },
+  {
+    "problemId": "P010",
+    "title": "Streamlining User Onboarding",
+    "description": "The current user onboarding process for our platform is lengthy and confusing, leading to high drop-off rates. Lack of guided steps and frequent technical issues in the registration flow are primary causes. Introducing a step-by-step interactive onboarding process with progress tracking will solve these challenges. Adding tooltips and automating account setup will further reduce friction. This initiative aims to improve user retention and satisfaction significantly.",
+    "tech_stack": ["React Native", "Redux", "SQLite"],
+    "deadline": "2025-03-20",
+    "owner": {
+      "name": "Ava Martinez",
+      "email": "ava.martinez@ideas2it.com"
+    },
+    "created_date": "2024-11-18",
+    "project": "Mobile Optimization",
+    "summary": "Optimize mobile app performance to ensure faster load times and lower resource usage."
+  }
+]

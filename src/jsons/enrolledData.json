@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "id": "P002",
+      "status": "APPROVED"
+    },
+    { "id": "P005", "status": "PENDING" },
+    { "id": "P006", "status": "DECLINED" }
+  ]
+}
