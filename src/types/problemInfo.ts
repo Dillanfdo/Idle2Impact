@@ -8,4 +8,5 @@ export type ProblemInfoType = {
   owner: { name: string; email: string };
   created_date: string;
   summary: string;
+  expectedResult: string;
 };

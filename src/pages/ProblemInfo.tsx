@@ -1,4 +1,4 @@
-import { useNavigate, useNavigation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProblemInfoType } from "../types/problemInfo";
 import { useEffect, useState } from "react";
 import data from "../jsons/problemStatementList.json";
@@ -49,7 +49,7 @@ const ProblemInfo = () => {
                 textDecoration: "none",
               }}
               onClick={() => {
-                navigate("/");
+                navigate(-1);
               }}
             >
               Go Back
@@ -60,10 +60,12 @@ const ProblemInfo = () => {
               <Typography variant="h2" color="#0076a8">
                 {problemInfo?.title}
               </Typography>
-              <Typography variant="h5" color="#767676" mt={1}>
-                Project:
-              </Typography>
-              <Typography variant="h5">{problemInfo.project}</Typography>
+              <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
+                <Typography variant="h5" color="#767676" mt={1}>
+                  Project:
+                </Typography>
+                <Typography variant="h5">{problemInfo.project}</Typography>
+              </Box>
             </Grid2>
             <Grid2>
               {status ? (
@@ -143,6 +145,13 @@ const ProblemInfo = () => {
               </Typography>
               <Typography>{problemInfo.owner.name}</Typography>
             </Grid2>
+          </Box>
+
+          <Box>
+            <Typography variant="h3">Expected Result:</Typography>
+            <Typography variant="body1" padding={"20px"}>
+              {problemInfo.expectedResult}
+            </Typography>
           </Box>
         </>
       )}
