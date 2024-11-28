@@ -5,7 +5,10 @@ import { apiClient, handleApiError } from './apiClient';
 export const api_endpoints = {
   VALIDATE_USER: '/api/Users/ValidateUser',
   GET_POSTS: '/api/Mentor/GetPost',
-  ADD_POST: '/api/Mentor/AddPost', // Modify this according to your API
+  ADD_POST: '/api/Mentor/AddPost', 
+  BLOG_POST: '/api/Blog/AddBlog',
+  GET_BLOG_POST: '/api/Blog/GetBlogs',
+  SEARCH_BLOG_POST: '/api/Blog/SearchBlogs',// Modify this according to your API
 };
 
 // Function to validate user login
@@ -24,6 +27,20 @@ export const addPost = async (formData: any) => {
   try {
     debugger;
     const response = await apiClient.post(api_endpoints.ADD_POST, formData, {
+      headers: {
+        'Content-Type': 'application/json', // Set content type to JSON
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
+export const addBlog = async (formData: any) => {
+  try {
+    debugger;
+    const response = await apiClient.post(api_endpoints.BLOG_POST, formData, {
       headers: {
         'Content-Type': 'application/json', // Set content type to JSON
       }

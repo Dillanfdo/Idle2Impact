@@ -15,6 +15,8 @@ import Profile from "./pages/Profile";
 import Header from "./components/header";
 import ProblemRoutes from "./ProblemRoutes";
 import Actions from "./pages/Actions";
+import Blogs from "./pages/Blogs";
+import NewBlog from "./pages/NewBlog";
 
 // Component to handle protected routes
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -64,6 +66,15 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/blogs"
+            element={
+              <ProtectedRoute>
+                <Blogs />
+              </ProtectedRoute>
+            }
+          />
+           <Route path="/new-blog" element={<NewBlog />} />
         </Routes>
       </Router>
     </UserProvider>

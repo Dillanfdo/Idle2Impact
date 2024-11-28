@@ -35,13 +35,16 @@ const DrawerList = ({
       case "Add New Post":
         navigate("/post-problem");
         break;
+        case "Blogs":
+        navigate("/blogs");
+        break;
     }
     toggleDrawer(false);
   };
   return (
     <Box sx={{ width: 250 }} component={"div"} role="presentation">
       <List>
-        {["Home", "Profile", "Actions", "Add New Post", "Favorites"].map(
+        {["Home", "Profile", "Actions", "Add New Post", "Favorites", "Blogs"].map(
           (text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => navigateFunc(text)}>
@@ -51,6 +54,7 @@ const DrawerList = ({
                   {index === 2 && <PendingActionsIcon />}
                   {index === 3 && <AddIcon />}
                   {index === 4 && <FavoriteIcon />}
+                  {index === 5 && <AddIcon />}
                 </ListItemIcon>
 
                 <ListItemText primary={text} />
