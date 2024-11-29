@@ -17,6 +17,7 @@ import ProblemRoutes from "./ProblemRoutes";
 import Actions from "./pages/Actions";
 import Blogs from "./pages/Blogs";
 import NewBlog from "./pages/NewBlog";
+import BlogDetail from "./pages/BlogDetail";
 
 // Component to handle protected routes
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
@@ -75,6 +76,7 @@ const App: React.FC = () => {
             }
           />
            <Route path="/new-blog" element={<NewBlog />} />
+           <Route path="/blogdetail/:id" element={<BlogDetail />} />  {/* Blog Detail Page */}
         </Routes>
       </Router>
     </UserProvider>

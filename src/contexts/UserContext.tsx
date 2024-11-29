@@ -3,12 +3,14 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { loginUser } from "../apis/apiFunctions";
 
 type User = {
-  id: number;
-  name: string;
+  created_at: string;  // ISO date string format
   email: string;
-  posts: number;
-  solutions: number;
-  favorites: number[];
+  name: string;
+  password: string;
+  role: string;
+  status: string;
+  updated_at: string;  // ISO date string format
+  user_id: number;
 };
 
 type UserContextType = {
@@ -36,8 +38,23 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const userData = await loginUser(email, password);
     if(userData.status==1){
       const parsedData = JSON.parse(userData.data).Table;
-      setUser(parsedData);
-      return true;
+      const user = parsedData[0];
+      if (user) {
+        setUser({
+          created_at: user.created_at,
+          email: user.email,
+          name: user.name,
+          password: user.password,  // You may want to omit or hash this in production
+          role: user.role,
+          status: user.status,
+          updated_at: user.updated_at,
+          user_id: user.user_id
+        });
+        return true;  // Successfully logged in
+      } else {
+        console.error("No user found in the data.");
+        return false;  // No user in the response
+      }
     }else{
       return false;
     }

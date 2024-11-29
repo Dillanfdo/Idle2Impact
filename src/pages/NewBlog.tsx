@@ -31,6 +31,7 @@ interface FormData {
 
 const NewBlog: React.FC = () => {
   const { user } = useUser();
+  
   //debugger;
   console.log("User",user);
   const { control, handleSubmit, register, formState: { errors } } = useForm<FormData>();
@@ -59,7 +60,13 @@ const NewBlog: React.FC = () => {
   
 
   const onSubmit = async (data: FormData) => {
-    //debugger;
+    debugger;
+
+    if (!user) {
+        alert("User data is not available. Please log in.");
+        return;
+      }
+      console.log("User at submission:", user);  // Debugging line
     const postData = {
       Title: data.title,
       Content: data.content,
@@ -67,7 +74,7 @@ const NewBlog: React.FC = () => {
       Tags: tags.toString(),
       Image: image ? URL.createObjectURL(image) : null, // for now, displaying locally
       PublishedDate: data.publishDate ? data.publishDate.format('YYYY-MM-DD') : '',
-      UserId: user?.id
+      UserId: user?.user_id
     };
 try{
     const result = await addBlog(postData);

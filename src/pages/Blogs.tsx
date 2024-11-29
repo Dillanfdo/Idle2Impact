@@ -1,42 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, TextField, Button, Typography, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom'; // Import the hook
+import { getAllBlog } from '../apis/apiFunctions';
 
 interface BlogPost {
-  id: number;
-  title: string;
-  author: string;
-  publishedDate: string;
-  content: string;
-  image: string;
-  comments: string[];
-}
-
+    BlogId: number;        // Corresponds to the 'BlogId' field
+    Title: string;         // Corresponds to the 'Title' field
+    Author: string;        // Corresponds to the 'Author' field
+    PublishedDate: string; // Corresponds to the 'PublishedDate' field
+    Content: string;       // Corresponds to the 'Content' field
+    Image: string;         // Corresponds to the 'Image' field
+    Tags: string | null;   // Corresponds to the 'Tags' field (could be null)
+    UserId: number;        // Corresponds to the 'UserId' field
+  }
+  
 const BlogPage: React.FC = () => {
   const navigate = useNavigate(); // Hook for navigation
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
-    {
-      id: 1,
-      title: 'Understanding React with TypeScript',
-      author: 'John Doe',
-      publishedDate: '2024-11-28',
-      content: 'In this blog post, we will explore how to integrate TypeScript with React...',
-      image: 'https://via.placeholder.com/800x400.png?text=React+with+TS',
-      comments: ['Great post!', 'Very helpful, thank you!'],
-    },
-    {
-      id: 2,
-      title: 'Building a Blog with React',
-      author: 'Jane Smith',
-      publishedDate: '2024-11-25',
-      content: 'Building a blog with React is easy and fun. In this post, we will walk through the steps...',
-      image: 'https://via.placeholder.com/800x400.png?text=Blog+with+React',
-      comments: ['I love this tutorial!', 'Looking forward to the next post.'],
-    },
-  ]);
+  const [postData, setPostData] = useState<BlogPost[]>([]);  // All posts
+  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]); // Filtered posts
+
+  // Fetch blog posts on page load
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+       
+        const result = await getAllBlog();
+        debugger;
+        console.log("Fetched result:", result);
+  
+        if (result.status === 1) {
+          // Parse result.data first, then access the 'Table' property
+          const blogData = JSON.parse(result.data);  // Now it's an object
+          setPostData(blogData);
+          setFilteredPosts(blogData); // Initially, set filtered posts to all posts
+        } else {
+          setPostData([]);
+          setFilteredPosts([]);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setPostData([]);
+        setFilteredPosts([]);
+      }
+    };
+    fetchPosts();
+  }, []);
+  
 
   // Handle "Add New Blog" button click
   const handleAddNewBlog = () => {
@@ -51,10 +62,19 @@ const BlogPage: React.FC = () => {
 
   // Filter blog posts based on search query
   const filterPosts = (query: string) => {
-    const filtered = blogPosts.filter((post) =>
-      post.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredPosts(filtered);
+    if (query) {
+      const filtered = postData.filter((post) =>
+        post.Title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts(postData);  // Reset to all posts if search is cleared
+    }
+  };
+
+  // Navigate to blog detail page
+  const handleViewDetails = (postId: number) => {
+    navigate(`/blogdetail/${postId}`); // Redirect to the specific blog post page
   };
 
   return (
@@ -91,12 +111,23 @@ const BlogPage: React.FC = () => {
       ) : (
         <Stack spacing={3}>
           {filteredPosts.map((post) => (
-            <Box key={post.id}>
-              <Typography variant="h6">{post.title}</Typography>
+           
+            <Box key={post.UserId} sx={{ border: '1px solid #ccc', p: 2, borderRadius: 2 }}>
+              <Typography variant="h6">{post.Title}</Typography>
               <Typography variant="body2" color="text.secondary">
-                By {post.author} | {new Date(post.publishedDate).toLocaleDateString()}
+                By {post.Author} | {new Date(post.PublishedDate).toLocaleDateString()}
               </Typography>
-              <Typography variant="body1">{post.content}</Typography>
+              <Typography variant="body1">{post.Content}</Typography>
+
+              {/* View Details Button */}
+              <Button
+                variant="outlined"
+                color="primary"
+                sx={{ mt: 2 }}
+                onClick={() => handleViewDetails(post.UserId)} // Redirect to the detail page
+              >
+                View Details
+              </Button>
             </Box>
           ))}
         </Stack>
