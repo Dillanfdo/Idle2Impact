@@ -1,12 +1,10 @@
 export type ProblemInfoType = {
-  problemId: string;
-  project: string;
-  title: string;
+  task_id: string;
+  problem_statement: string;
   description: string;
-  tech_stack: string[];
-  deadline: string;
-  owner: { name: string; email: string };
-  created_date: string;
-  summary: string;
-  expectedResult: string;
+  dead_line: string;
+  tech_stack: string;
+  owner:string;
+  expected_result: string;
+  mentor_id:number;
 };

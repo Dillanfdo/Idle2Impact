@@ -25,7 +25,6 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +32,7 @@ const Login: React.FC = () => {
     if (isLoggedIn) {
       navigate("/"); 
     } else {
-      setError("Invalid email or password");
+      alert("Invalid email or password");
     }
   };
 
@@ -84,9 +83,6 @@ const Login: React.FC = () => {
             }
             label="Password"
           />
-
-          {error && <p className="error">{error}</p>}
-
           <Button type="submit" variant="contained" color="primary">
             Login
           </Button>

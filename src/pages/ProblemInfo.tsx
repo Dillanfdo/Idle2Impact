@@ -1,10 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { ProblemInfoType } from "../types/problemInfo";
 import { useEffect, useState } from "react";
-import data from "../jsons/problemStatementList.json";
 import enrolledData from "../jsons/enrolledData.json";
 import { Box, Button, Chip, Grid2, Link, Typography } from "@mui/material";
 import moment from "moment";
+import { useLocation } from 'react-router-dom';
+import { useUser } from "../contexts/UserContext";
+import { enrolltask } from "../apis/apiFunctions";
 
 const ProblemInfo = () => {
   const params = useParams();
@@ -12,20 +14,22 @@ const ProblemInfo = () => {
   const [problemInfo, setProblemInfo] = useState<ProblemInfoType | null>();
   const [status, setStatus] = useState<string>("");
   const { pid } = params;
-
+  const location = useLocation();
+  const post = location.state?.post;
+  const { user} = useUser();
   useEffect(() => {
-    const problemInfo = data.find((d) => d.problemId === pid);
+    const problemInfo = post;
     if (problemInfo) setProblemInfo({ ...problemInfo });
   }, [pid]);
 
-  useEffect(() => {
-    if (!enrolledData || !problemInfo) return;
-    const enrollmentStatus = enrolledData.data.find(
-      (data) => data.id === problemInfo.problemId
-    );
-    setStatus(enrollmentStatus ? enrollmentStatus.status : "");
-  }, [enrolledData, problemInfo]);
-  if (problemInfo) console.log(problemInfo.problemId in enrolledData);
+  // useEffect(() => {
+  //   if (!enrolledData || !problemInfo) return;
+  //   const enrollmentStatus = enrolledData.data.find(
+  //     (data) => data.id === problemInfo.task_id
+  //   );
+  //   setStatus(enrollmentStatus ? enrollmentStatus.status : "");
+  // }, [enrolledData, problemInfo]);
+  // if (problemInfo) console.log(problemInfo.task_id in enrolledData);
 
   const getColor = () => {
     switch (status) {
@@ -37,6 +41,18 @@ const ProblemInfo = () => {
         return "grey";
     }
   };
+  const enroll= async ()=>{
+    const enrolldata: any = {
+      user_id: user?.user_id,
+      mentor_id: problemInfo?.mentor_id,
+      task_id: problemInfo?.task_id,
+      status_id: 1
+    };
+    const result = await enrolltask(enrolldata);
+    if (result.status == 1) {
+      alert("Enrolled Successfully");
+    }
+  }
 
   return (
     <>
@@ -58,14 +74,8 @@ const ProblemInfo = () => {
           <Grid2 container padding={"20px"} justifyContent={"space-between"}>
             <Grid2>
               <Typography variant="h2" color="#0076a8">
-                {problemInfo?.title}
+                {problemInfo?.problem_statement}
               </Typography>
-              <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-                <Typography variant="h5" color="#767676" mt={1}>
-                  Project:
-                </Typography>
-                <Typography variant="h5">{problemInfo.project}</Typography>
-              </Box>
             </Grid2>
             <Grid2>
               {status ? (
@@ -81,7 +91,7 @@ const ProblemInfo = () => {
                   {status}
                 </Typography>
               ) : (
-                <Button
+                <Button onClick={()=> enroll()}
                   variant="contained"
                   sx={{
                     width: "200px",
@@ -114,7 +124,7 @@ const ProblemInfo = () => {
             <Typography variant="body1" color="#767676" fontSize={"2rem"}>
               Tech Stack:
             </Typography>
-            {problemInfo.tech_stack.map((techStack) => (
+            {problemInfo.tech_stack.split(',').map((techStack) => (
               <Chip
                 label={techStack}
                 sx={{ fontSize: "1.5rem" }}
@@ -136,21 +146,21 @@ const ProblemInfo = () => {
                 Deadline:
               </Typography>
               <Typography>
-                {moment(problemInfo.deadline).format("DD/MM/YYYY")}
+                {moment(problemInfo.dead_line).format("DD/MM/YYYY")}
               </Typography>
             </Grid2>
             <Grid2 flex={1}>
               <Typography variant="subtitle1" color="#767676">
                 Mentor/Owner:
               </Typography>
-              <Typography>{problemInfo.owner.name}</Typography>
+              <Typography>{problemInfo.owner}</Typography>
             </Grid2>
           </Box>
 
           <Box>
             <Typography variant="h3">Expected Result:</Typography>
             <Typography variant="body1" padding={"20px"}>
-              {problemInfo.expectedResult}
+              {problemInfo.expected_result}
             </Typography>
           </Box>
         </>

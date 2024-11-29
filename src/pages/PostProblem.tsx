@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 import dayjs, { Dayjs } from "dayjs";
 import { addPost } from "../apis/apiFunctions";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 interface FormData {
   title: string;
@@ -32,7 +33,7 @@ const ProjectForm: React.FC = () => {
     register,
     formState: { errors },
   } = useForm<FormData>();
-
+  const { user} = useUser();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [techStack, setTechStack] = useState<string[]>([]);
   const [techInput, setTechInput] = useState<string>("");
@@ -71,9 +72,10 @@ const ProjectForm: React.FC = () => {
     console.log("Tech Stack:", techStack);
     try {
       const postdata: any = {
+        MentorId: user?.user_id,
         ProblemStatement: data.title,
         Description: data.description,
-        TechStack: "Dotnet",
+        TechStack: techStack? techStack.join(", "): "",
         ExpectedResult: data.expectedResult,
         DeadLine: data.deadline,
         Files: []
@@ -100,7 +102,6 @@ const ProjectForm: React.FC = () => {
         });
       });
       await Promise.all(filePromises);
-debugger;
       const result = await addPost(postdata);
       if (result.status == 1) {
         alert("Data submitted successfully!");

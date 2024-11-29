@@ -11,7 +11,7 @@ export const api_endpoints = {
   GET_ALL_BLOG_POST: '/api/Blog/GetAllBlogs',  
   GET_BLOG_COMMENTS: '/api/Blog/GetCommentsByBlogId',
   ADD_BLOG_COMMENTS: '/api/Blog/AddComment',
-    
+  ENROLL_TASK: '/api/Employee/EnrollTask',
   SEARCH_BLOG_POST: '/api/Blog/SearchBlogs',// Modify this according to your API
 };
 
@@ -29,7 +29,6 @@ export const loginUser = async (email: string, password: string) => {
 // Function to add a post (with form data for file uploads)
 export const addPost = async (formData: any) => {
   try {
-    debugger;
     const response = await apiClient.post(api_endpoints.ADD_POST, formData, {
       headers: {
         'Content-Type': 'application/json', // Set content type to JSON
@@ -43,7 +42,6 @@ export const addPost = async (formData: any) => {
 
 export const addBlog = async (formData: any) => {
   try {
-    debugger;
     const response = await apiClient.post(api_endpoints.BLOG_POST, formData, {
       headers: {
         'Content-Type': 'application/json', // Set content type to JSON
@@ -55,10 +53,22 @@ export const addBlog = async (formData: any) => {
   }
 };
 
+export const enrolltask = async (enrolldata: any) => {
+  try {
+    const response = await apiClient.post(api_endpoints.ENROLL_TASK, enrolldata, {
+      headers: {
+        'Content-Type': 'application/json', 
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
 
 export const getAllBlog = async () => {
   try {
-    debugger;
     const url = `${api_endpoints.GET_ALL_BLOG_POST}`;
     const response = await apiClient.get(url)
     return response.data;

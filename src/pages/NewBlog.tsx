@@ -31,8 +31,6 @@ interface FormData {
 
 const NewBlog: React.FC = () => {
   const { user } = useUser();
-  
-  //debugger;
   console.log("User",user);
   const { control, handleSubmit, register, formState: { errors } } = useForm<FormData>();
   const [tags, setTags] = useState<string[]>([]);
@@ -60,8 +58,6 @@ const NewBlog: React.FC = () => {
   
 
   const onSubmit = async (data: FormData) => {
-    debugger;
-
     if (!user) {
         alert("User data is not available. Please log in.");
         return;
