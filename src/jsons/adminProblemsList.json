@@ -1,0 +1,91 @@
+[
+  {
+    "problemId": "P003",
+    "title": "Data Pipeline for Real-Time Analytics",
+    "description": "Our current analytics system relies on batch processing, which delays the availability of critical business metrics. Decision-makers need real-time insights to respond to market conditions, but our system fails to provide this. Technologies like Kafka can be used for event streaming, while scalable cloud solutions handle processing. Integrating this pipeline with our analytics tools will enable real-time dashboards that drive decision-making. This project will significantly improve our competitive edge by providing actionable insights instantly.",
+    "tech_stack": ["Apache Kafka", "Python", "AWS Lambda"],
+    "deadline": "2025-01-10",
+    "owner": {
+      "name": "Sophia Lee",
+      "email": "sophia.lee@ideas2it.com"
+    },
+    "created_date": "2024-11-12",
+    "project": "Data Transformation Initiative",
+    "summary": "Build a real-time data pipeline to deliver immediate business insights.",
+    "expectedResult": "A fully functional real-time data pipeline capable of processing high-volume data streams with low latency. The system should integrate seamlessly with existing analytics tools and provide reliable, accurate, and actionable real-time dashboards.",
+    "status": 1,
+    "appliedList": [
+      {
+        "employeeID": "I28770",
+        "name": "Sophia Lee",
+        "email": "sophia.lee@ideas2it.com",
+        "appliedOn": "2024-11-20"
+      },
+      {
+        "employeeID": "I28275",
+        "name": "David Patel",
+        "email": "david.patel@ideas2it.com",
+        "appliedOn": "2024-12-01"
+      },
+      {
+        "employeeID": "I28714",
+        "name": "Maya Brown",
+        "email": "maya.brown@ideas2it.com",
+        "appliedOn": "2024-12-02"
+      }
+    ]
+  },
+  {
+    "problemId": "P005",
+    "title": "Developing Custom UI Components",
+    "description": "The user interface of our application lacks uniformity, with inconsistent styles and behavior across modules. The absence of a design system means no standard guidelines for UI development, leading to fragmented code and user dissatisfaction. Creating a reusable library of UI components adhering to modern design principles will resolve these issues. Comprehensive documentation and examples will aid developer adoption. This initiative will not only improve user satisfaction but also reduce development time for new features.",
+    "tech_stack": ["React", "TypeScript", "SCSS"],
+    "deadline": "2025-01-05",
+    "owner": {
+      "name": "Maya Brown",
+      "email": "maya.brown@ideas2it.com"
+    },
+    "created_date": "2024-11-08",
+    "project": "UI Modernization Toolkit",
+    "summary": "Create a reusable library of UI components to ensure design consistency.",
+    "expectedResult": "A reusable library of customizable, accessible, and well-documented UI components. It should be compatible across all projects and reduce UI development time by 40%.",
+    "status": 2,
+    "appliedList": [
+      {
+        "employeeID": "I28770",
+        "name": "Sophia Lee",
+        "email": "sophia.lee@ideas2it.com",
+        "appliedOn": "2024-11-20"
+      },
+      {
+        "employeeID": "I28275",
+        "name": "David Patel",
+        "email": "david.patel@ideas2it.com",
+        "appliedOn": "2024-12-01"
+      },
+      {
+        "employeeID": "I28714",
+        "name": "Maya Brown",
+        "email": "maya.brown@ideas2it.com",
+        "appliedOn": "2024-12-02"
+      }
+    ]
+  },
+  {
+    "problemId": "P009",
+    "title": "Enhancing Mobile App Performance",
+    "description": "Our mobile application suffers from high memory consumption and slow loading times, particularly on older devices. Inefficient network calls and unoptimized code are contributing factors. Techniques like lazy loading, code splitting, and optimizing image sizes can significantly improve performance. Additionally, implementing a robust offline mode using caching will improve user experience. This project will result in faster app responses and higher user satisfaction.",
+    "tech_stack": ["React Native", "Redux", "SQLite"],
+    "deadline": "2025-03-20",
+    "owner": {
+      "name": "Ava Martinez",
+      "email": "ava.martinez@ideas2it.com"
+    },
+    "created_date": "2024-11-18",
+    "project": "Mobile Optimization",
+    "summary": "Optimize mobile app performance to ensure faster load times and lower resource usage.",
+    "expectedResult": "A high-performing mobile app with faster loading times, lower memory consumption, and an offline mode. It should improve user engagement and handle higher traffic volumes efficiently.",
+    "status": 0,
+    "appliedList": []
+  }
+]

@@ -7,11 +7,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import Person2Icon from "@mui/icons-material/Person2";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddIcon from "@mui/icons-material/Add";
 import { Home } from "@mui/icons-material";
+import WebIcon from "@mui/icons-material/Web";
+import PeopleIcon from "@mui/icons-material/People";
 import { useNavigate } from "react-router-dom";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import { useUser } from "../contexts/UserContext";
 
 const DrawerList = ({
   // setComponent,
@@ -21,6 +23,8 @@ const DrawerList = ({
   toggleDrawer: (val: boolean) => void;
 }) => {
   const navigate = useNavigate();
+  const { user } = useUser();
+  console.log(user, "dillan");
   const navigateFunc = (val: string) => {
     switch (val) {
       case "Home":
@@ -35,7 +39,10 @@ const DrawerList = ({
       case "Add New Post":
         navigate("/post-problem");
         break;
-        case "Blogs":
+      case "Users":
+        navigate("/users");
+        break;
+      case "Blogs":
         navigate("/blogs");
         break;
     }
@@ -44,7 +51,7 @@ const DrawerList = ({
   return (
     <Box sx={{ width: 250 }} component={"div"} role="presentation">
       <List>
-        {["Home", "Profile", "Actions", "Add New Post", "Favorites", "Blogs"].map(
+        {["Home", "Profile", "Actions", "Add New Post", "Blogs"].map(
           (text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => navigateFunc(text)}>
@@ -53,14 +60,22 @@ const DrawerList = ({
                   {index === 1 && <Person2Icon />}
                   {index === 2 && <PendingActionsIcon />}
                   {index === 3 && <AddIcon />}
-                  {index === 4 && <FavoriteIcon />}
-                  {index === 5 && <AddIcon />}
+                  {index === 4 && <WebIcon />}
                 </ListItemIcon>
-
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
           )
+        )}
+        {user?.role === "Admin" && (
+          <ListItem key={"Users"} disablePadding>
+            <ListItemButton onClick={() => navigateFunc("Users")}>
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Users"} />
+            </ListItemButton>
+          </ListItem>
         )}
       </List>
     </Box>
