@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Stack, TextField } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getAllBlog, getCommentsByBlogId, addComment } from '../apis/apiFunctions'; // Assuming you have this function to fetch posts
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { getCommentsByBlogId, addComment } from '../apis/apiFunctions'; // Assuming you have this function to fetch comments
 import { useUser } from '../contexts/UserContext';
 
 interface BlogPost {
@@ -13,109 +13,93 @@ interface BlogPost {
   Image: string;
   Tags: string | null;
   UserId: number;
-  Comments: Comment[]; // New field to hold comments for this blog post
+  Comments: Comment[];
 }
 
 interface Comment {
-  CommentId: number;   // ID of the comment
-  BlogId: number;      // ID of the blog the comment belongs to
+  CommentId: number;
+  BlogId: number;
   Content: string;
-  Name: string;        // Name of the user posting the comment
-  UserId: number;      // ID of the user who posted the comment
-  CreatedDate: string; // Timestamp when the comment was created
+  Name: string;
+  UserId: number;
+  CreatedDate: string;
 }
 
 const BlogDetail: React.FC = () => {
   const { user } = useUser();
-  const { id } = useParams(); // Use the useParams hook to get the blog post id from the URL
-  const navigate = useNavigate(); // Use navigate to redirect users
-  const [post, setPost] = useState<BlogPost | null>(null); // State to store the single blog post
-  const [comments, setComments] = useState<Comment[]>([]); // State to store the comments for this post
-  const [newComment, setNewComment] = useState<string>(''); // State to hold new comment text
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // State to track submitting status
+  const navigate = useNavigate();
+  const { state } = useLocation(); // Get the state passed from BlogPage
+  const [post, setPost] = useState<BlogPost | null>(state?.postData ?? null); // Get the post data passed from BlogPage
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Fetch the blog post details based on the ID
   useEffect(() => {
-    const fetchBlogDetails = async () => {
-      try {
-        const result = await getAllBlog();
-        if (result.status === 1) {
-          const blogData = JSON.parse(result.data);
-          const blogPost = blogData.find((post: BlogPost) => post.UserId === parseInt(id!));
-          if (blogPost) {
-            setPost(blogPost);
-            const commentsResult = await getCommentsByBlogId(blogPost.BlogId);
-            if (commentsResult.status === 1) {
-              const commentData = JSON.parse(commentsResult.data);
-              setComments(commentData); // Set the comments from the API
-            } else {
-              setComments([]); // Handle if no comments are found
-            }
+    if (post) {
+      const fetchComments = async () => {
+        try {
+          const commentsResult = await getCommentsByBlogId(post.BlogId);
+          if (commentsResult.status === 1) {
+            const commentData = JSON.parse(commentsResult.data);
+            setComments(commentData);
           } else {
-            console.error('Blog post not found');
+            setComments([]);
           }
+        } catch (error) {
+          console.error('Error fetching comments:', error);
         }
-      } catch (error) {
-        console.error('Error fetching blog post details:', error);
-      }
-    };
-
-    if (id) {
-      fetchBlogDetails();
+      };
+      fetchComments();
     }
-  }, [id]);
+  }, [post]);
 
-  // Go back to the blog list page
   const handleGoBack = () => {
-    navigate('/blogs'); // Go back to the main blog page
+    navigate('/blogs');
   };
 
-  // Handle comment submission
   const handleSubmitComment = async () => {
-    if (!newComment.trim()) return; // Avoid submitting empty comments
+    if (!newComment.trim()) return;
 
-    setIsSubmitting(true); // Set submitting status to true
+    setIsSubmitting(true);
 
     try {
-      // Assuming `addComment` sends a POST request to add a comment
       const commentData = {
         Content: newComment,
-        BlogId: post?.BlogId ?? 0,  // Fallback to 0 if BlogId is undefined
-        UserId: user?.user_id?? 0,  // Fallback to 0 if UserId is undefined
+        BlogId: post?.BlogId ?? 0,
+        UserId: user?.user_id ?? 0,
       };
       const result = await addComment(commentData);
       if (result.status === 1) {
-        // Refresh the comments after submitting
         const updatedComments = await getCommentsByBlogId(post?.BlogId!);
         if (updatedComments.status === 1) {
           const commentData = JSON.parse(updatedComments.data);
-          setComments(commentData); // Update the comment list with the newly added comment
+          setComments(commentData);
         }
-        setNewComment(''); // Clear the comment input after successful submission
+        setNewComment('');
       } else {
         console.error('Error submitting comment:', result);
       }
     } catch (error) {
       console.error('Error submitting comment:', error);
     } finally {
-      setIsSubmitting(false); // Reset submitting status
+      setIsSubmitting(false);
     }
   };
 
   if (!post) {
-    return <Typography>Loading...</Typography>; // Show loading message while fetching the post
+    return <Typography>Loading...</Typography>;
   }
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 4, p: 3 }}>
-        <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleGoBack}
-            sx={{ mb: 4 }}
-          >
-            Back to Blog List
-          </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleGoBack}
+        sx={{ mb: 4 }}
+      >
+        Back to Blog List
+      </Button>
       <Typography variant="h4" gutterBottom>
         {post.Title}
       </Typography>
@@ -132,7 +116,6 @@ const BlogDetail: React.FC = () => {
         </Box>
       )}
 
-      {/* Display comments */}
       <Box sx={{ mt: 3 }}>
         <Typography variant="h6" gutterBottom>
           Comments
@@ -153,7 +136,6 @@ const BlogDetail: React.FC = () => {
         )}
       </Box>
 
-      {/* Add new comment section */}
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6" gutterBottom>
           Add a Comment
@@ -176,8 +158,6 @@ const BlogDetail: React.FC = () => {
           >
             {isSubmitting ? 'Submitting...' : 'Submit Comment'}
           </Button>
-
-          
         </Box>
       </Box>
     </Box>
