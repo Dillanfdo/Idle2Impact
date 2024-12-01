@@ -28,7 +28,6 @@ const PostFeed = () => {
     const fetchPosts = async () => {
       try {
         const result = await getposts();
-        console.log("Fetched result:", result); 
         if (result.status === 1) {
           const feeds= JSON.parse(result.data).Table;
           setPostData(feeds);

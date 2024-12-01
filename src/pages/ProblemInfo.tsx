@@ -20,6 +20,7 @@ const ProblemInfo = () => {
   useEffect(() => {
     const problemInfo = post;
     if (problemInfo) setProblemInfo({ ...problemInfo });
+    setStatus(problemInfo ? problemInfo.enrolledstatus : "");
   }, [pid]);
 
   // useEffect(() => {
@@ -31,13 +32,13 @@ const ProblemInfo = () => {
   // }, [enrolledData, problemInfo]);
   // if (problemInfo) console.log(problemInfo.task_id in enrolledData);
 
-  const getColor = () => {
+  const getColor = (status: any) => {
     switch (status) {
-      case "APPROVED":
+      case "Approved":
         return "green";
-      case "DECLINED":
+      case "Declined":
         return "red";
-      case "PENDING":
+      case "Pending":
         return "grey";
     }
   };
@@ -51,6 +52,7 @@ const ProblemInfo = () => {
     const result = await enrolltask(enrolldata);
     if (result.status == 1) {
       alert("Enrolled Successfully");
+      setStatus("Pending")
     }
   }
 
@@ -77,34 +79,37 @@ const ProblemInfo = () => {
                 {problemInfo?.problem_statement}
               </Typography>
             </Grid2>
+            {user?.role == "Employee" &&
             <Grid2>
-              {status ? (
-                <Typography
-                  variant="h4"
-                  sx={{
-                    border: `1px solid ${getColor()}`,
-                    color: getColor(),
-                    padding: "10px",
-                    borderRadius: "5px",
-                  }}
-                >
-                  {status}
-                </Typography>
-              ) : (
-                <Button onClick={()=> enroll()}
-                  variant="contained"
-                  sx={{
-                    width: "200px",
-                    height: "50px",
-                    margin: "10px",
-                    fontSize: "20px",
-                    fontWeight: 600,
-                  }}
-                >
-                  Enroll
-                </Button>
-              )}
-            </Grid2>
+            { status ? (
+              <Typography
+                variant="h4"
+                sx={{
+                  border: `1px solid ${getColor(status)}`,
+                  color: getColor(status),
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                {status}
+              </Typography>
+            ) : ( 
+              <Button onClick={()=> enroll()}
+                variant="contained"
+                sx={{
+                  width: "200px",
+                  height: "50px",
+                  margin: "10px",
+                  fontSize: "20px",
+                  fontWeight: 600,
+                }}
+              >
+                Enroll
+              </Button>
+            )
+            }
+          </Grid2>
+            }            
             <Grid2>
               <Typography
                 variant="body1"

@@ -13,6 +13,8 @@ export const api_endpoints = {
   ADD_BLOG_COMMENTS: '/api/Blog/AddComment',
   ENROLL_TASK: '/api/Employee/EnrollTask',
   SEARCH_BLOG_POST: '/api/Blog/SearchBlogs',// Modify this according to your API
+  GET_ENROLLED_USER: '/api/Mentor/GetEnrolledUsers',
+  UPDATE_ENROLLED_STATUS: '/api/Mentor/UpdateEnrolledStatus',
 };
 
 // Function to validate user login
@@ -66,6 +68,25 @@ export const enrolltask = async (enrolldata: any) => {
   }
 };
 
+export const getenrolledusers = async (taskid: any) => {
+  try {
+    const url = `${api_endpoints.GET_ENROLLED_USER}?task_id=${encodeURIComponent(taskid)}`;
+    const response = await apiClient.get(url);
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
+export const updatestatus = async (id: number,_taskid:number, status: number) => {
+  try {
+    const url = `${api_endpoints.UPDATE_ENROLLED_STATUS}?enrolledid=${encodeURIComponent(id)}&status=${encodeURIComponent(status)}&taskid=${encodeURIComponent(_taskid)}`;
+    const response = await apiClient.get(url);
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
 
 export const getAllBlog = async () => {
   try {
