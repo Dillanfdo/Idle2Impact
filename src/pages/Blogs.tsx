@@ -104,7 +104,19 @@ const BlogPage: React.FC = () => {
               <Typography variant="body2" color="text.secondary">
                 By {post.Author} | {new Date(post.PublishedDate).toLocaleDateString()}
               </Typography>
-              <Typography variant="body1">{post.Content}</Typography>
+              <Typography
+  variant="body1"
+  sx={{
+    whiteSpace: 'pre-wrap', // Preserve line breaks
+    overflow: 'hidden', // Hide extra content
+    textOverflow: 'ellipsis', // Add "..." at the end
+    display: '-webkit-box', // Enable line clamping
+    WebkitBoxOrient: 'vertical', // Vertical box orientation
+    WebkitLineClamp: 3, // Limit to 3 lines
+  }}
+>
+  {post.Content}
+</Typography>
 
               {/* View Details Button */}
               <Button

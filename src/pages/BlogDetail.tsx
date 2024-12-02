@@ -107,7 +107,7 @@ const BlogDetail: React.FC = () => {
         By {post.Author} | {new Date(post.PublishedDate).toLocaleDateString()}
       </Typography>
       <Typography variant="body1" paragraph>
-        {post.Content}
+        <pre>{post.Content}</pre>
       </Typography>
 
       {post.Image && (

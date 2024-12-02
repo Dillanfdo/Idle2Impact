@@ -74,7 +74,7 @@ try{
     const result = await addBlog(postData);
       if (result.status == 1) {
         alert("Data submitted successfully!");
-        navigate("/"); 
+        navigate("/blogs"); 
       }
     } catch (error) {
 
