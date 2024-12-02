@@ -45,8 +45,13 @@ const Header = ({
                 <Typography variant="h6" component="div" flexGrow={1}>
                   Idle2Impact
                 </Typography>
-                <Typography variant="h6" component="div" flexGrow={1}>
-                {user.role}
+                <Typography
+                  variant="h6"
+                  component="div"
+                  flexGrow={1}
+                  sx={{ textAlign: "right", mr: 2 }}
+                >
+                  {user.name}
                 </Typography>
                 <Button color="inherit" onClick={logout}>
                   Logout

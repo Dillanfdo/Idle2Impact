@@ -9,6 +9,7 @@ import {
   Chip,
   InputAdornment,
   IconButton,
+  Grid2,
 } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -33,7 +34,7 @@ const ProjectForm: React.FC = () => {
     register,
     formState: { errors },
   } = useForm<FormData>();
-  const { user} = useUser();
+  const { user } = useUser();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [techStack, setTechStack] = useState<string[]>([]);
   const [techInput, setTechInput] = useState<string>("");
@@ -72,10 +73,10 @@ const ProjectForm: React.FC = () => {
         MentorId: user?.user_id,
         ProblemStatement: data.title,
         Description: data.description,
-        TechStack: techStack? techStack.join(", "): "",
+        TechStack: techStack ? techStack.join(", ") : "",
         ExpectedResult: data.expectedResult,
         DeadLine: data.deadline,
-        Files: []
+        Files: [],
       };
 
       const filePromises = uploadedFiles.map((file: File) => {
@@ -87,7 +88,7 @@ const ProjectForm: React.FC = () => {
               postdata.Files.push({
                 fileName: file.name,
                 fileType: file.type,
-                fileContent: fileBase64
+                fileContent: fileBase64,
               });
               resolve();
             } catch (error) {
@@ -95,17 +96,16 @@ const ProjectForm: React.FC = () => {
             }
           };
           reader.onerror = reject;
-          reader.readAsDataURL(file); 
+          reader.readAsDataURL(file);
         });
       });
       await Promise.all(filePromises);
       const result = await addPost(postdata);
       if (result.status == 1) {
         alert("Data submitted successfully!");
-        navigate("/"); 
+        navigate("/");
       }
     } catch (error) {
-
       console.error("Error submitting data:", error);
       alert("An error occurred while submitting the data.");
     }
@@ -116,129 +116,145 @@ const ProjectForm: React.FC = () => {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       sx={{
-        maxWidth: 600,
+        // maxWidth: 600,
         mx: "auto",
-        mt: 4,
+        margin: "16px 42px 0",
         p: 3,
         border: "1px solid #ccc",
         borderRadius: 2,
       }}
     >
       <Typography variant="h5" mb={3}>
-        Create Project
+        Create Problem Statement
       </Typography>
       <Stack spacing={3}>
-        {/* Title Field */}
-        <TextField
-          label="Title"
-          variant="outlined"
-          {...register("title", { required: "Title is required" })}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-          fullWidth
-        />
-
-        {/* Description Field */}
-        <TextField
-          label="Description"
-          variant="outlined"
-          multiline
-          rows={4}
-          {...register("description", { required: "Description is required" })}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-          fullWidth
-        />
-
-        {/* Deadline Field */}
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Controller
-            name="deadline"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <DesktopDatePicker
-                label="Deadline"
-                // inputFormat="MM/DD/YYYY"
-                value={field.value}
-                onChange={(date) => field.onChange(date)}
-                // renderInput={(params) => (
-                //   <TextField
-                //     {...params}
-                //     error={!!errors.deadline}
-                //     helperText={errors.deadline ? 'Deadline is required' : ''}
-                //     fullWidth
-                //   />
-                // )}
-              />
-            )}
-            rules={{ required: "Deadline is required" }}
+        <Box>
+          {/* Title Field */}
+          <TextField
+            label="Title"
+            variant="outlined"
+            {...register("title", { required: "Title is required" })}
+            error={!!errors.title}
+            helperText={errors.title?.message}
+            fullWidth
           />
-        </LocalizationProvider>
+        </Box>
 
-        {/* Tech Stack Field */}
-        <TextField
-          label="Tech Stack"
-          variant="outlined"
-          value={techInput}
-          onChange={(e) => setTechInput(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleAddTechStack} edge="end">
-                  <AddIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          fullWidth
-        />
+        <Box display={"flex"} gap={2}>
+          {/* Description Field */}
+          <TextField
+            label="Description"
+            variant="outlined"
+            multiline
+            rows={4}
+            {...register("description", {
+              required: "Description is required",
+            })}
+            error={!!errors.description}
+            helperText={errors.description?.message}
+            fullWidth
+          />
 
-        {/* Tech Stack Chips */}
-        {techStack.length > 0 && (
-          <Box>
-            <Typography variant="subtitle1" gutterBottom>
-              Tech Stack:
-            </Typography>
-            <Stack direction="row" spacing={1} flexWrap="wrap">
-              {techStack.map((tech, index) => (
-                <Chip
-                  key={index}
-                  label={tech}
-                  onDelete={() => removeTechStack(index)}
-                  color="secondary"
-                  variant="outlined"
+          {/* Deadline Field */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              name="deadline"
+              control={control}
+              defaultValue={null}
+              render={({ field }) => (
+                <DesktopDatePicker
+                  label="Deadline"
+                  // inputFormat="MM/DD/YYYY"
+                  value={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  // renderInput={(params) => (
+                  //   <TextField
+                  //     {...params}
+                  //     error={!!errors.deadline}
+                  //     helperText={errors.deadline ? 'Deadline is required' : ''}
+                  //     fullWidth
+                  //   />
+                  // )}
                 />
-              ))}
-            </Stack>
-          </Box>
-        )}
+              )}
+              rules={{ required: "Deadline is required" }}
+            />
+          </LocalizationProvider>
+        </Box>
 
-        {/* File Upload */}
-        <Button variant="outlined" component="label" fullWidth>
-          Upload Files (optional)
-          <input type="file" multiple hidden onChange={handleFileUpload} />
-        </Button>
+        <Grid2 display={"flex"} gap={2}>
+          {/* Tech Stack Field */}
+          <Box flex={1}>
+            <TextField
+              label="Tech Stack"
+              variant="outlined"
+              value={techInput}
+              onChange={(e) => setTechInput(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleAddTechStack} edge="end">
+                      <AddIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
 
-        {/* Uploaded Files List */}
-        {uploadedFiles.length > 0 && (
-          <Box>
-            <Typography variant="subtitle1" gutterBottom>
-              Uploaded Files:
-            </Typography>
-            <Stack direction="row" spacing={1} flexWrap="wrap">
-              {uploadedFiles.map((file, index) => (
-                <Chip
-                  key={index}
-                  label={file.name}
-                  onDelete={() => removeFile(index)}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
-            </Stack>
+            {/* Tech Stack Chips */}
+            {techStack.length > 0 && (
+              <Box>
+                <Typography variant="subtitle1" gutterBottom>
+                  Tech Stack:
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                  {techStack.map((tech, index) => (
+                    <Chip
+                      key={index}
+                      label={tech}
+                      onDelete={() => removeTechStack(index)}
+                      color="secondary"
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
+              </Box>
+            )}
           </Box>
-        )}
+          <Box flex={1}>
+            {/* File Upload */}
+            <Button
+              variant="outlined"
+              component="label"
+              fullWidth
+              sx={{ height: "55px" }}
+            >
+              Upload Files (optional)
+              <input type="file" multiple hidden onChange={handleFileUpload} />
+            </Button>
+
+            {/* Uploaded Files List */}
+            {uploadedFiles.length > 0 && (
+              <Box>
+                <Typography variant="subtitle1" gutterBottom>
+                  Uploaded Files:
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                  {uploadedFiles.map((file, index) => (
+                    <Chip
+                      key={index}
+                      label={file.name}
+                      onDelete={() => removeFile(index)}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
+              </Box>
+            )}
+          </Box>
+        </Grid2>
 
         {/* Expected Result */}
         <TextField

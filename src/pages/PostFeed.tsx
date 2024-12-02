@@ -29,23 +29,22 @@ const PostFeed = () => {
       try {
         const result = await getposts();
         if (result.status === 1) {
-          const feeds= JSON.parse(result.data).Table;
+          const feeds = JSON.parse(result.data).Table;
           setPostData(feeds);
         } else {
-          setPostData([]); 
+          setPostData([]);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
-        setPostData([]); 
+        setPostData([]);
       }
     };
     fetchPosts();
-  }, []); 
-  
+  }, []);
+
   return (
     <Grid2 container gap={2} justifyContent={"center"} margin={"30px"}>
       {postData.map((d) => (
-        
         <Card
           key={d.task_id} // Ensure to add key for mapping
           sx={{
@@ -58,12 +57,18 @@ const PostFeed = () => {
             boxShadow: "4px 9px 10px #cabebe",
             cursor: "pointer",
           }}
-          onClick={() => navigate(`/problem/${d.task_id}`, { state: { post: d } })}
+          onClick={() =>
+            navigate(`/problem/${d.task_id}`, { state: { post: d } })
+          }
         >
           <Typography variant="h5" sx={{ mb: 1 }}>
             {d.problem_statement}
           </Typography>
-          <Typography variant="body1">{d.description.length > 200 ? `${d.description.slice(0, 200)}...` : d.description}</Typography>
+          <Typography variant="body1">
+            {d.description.length > 200
+              ? `${d.description.slice(0, 200)}...`
+              : d.description}
+          </Typography>
           <Box
             sx={{
               display: "flex",
@@ -76,11 +81,14 @@ const PostFeed = () => {
               label={"Deadline:"}
               value={moment(d.dead_line).format("DD/MM/YYYY")}
             />
-             <Box sx={{ display: 'flex', gap: 1 }}>
-      {d.tech_stack.split(',').map((tech) => tech.trim()).map((techStack) => (
-        <TechStackTag key={techStack} techStack={techStack} />
-      ))}
-    </Box>
+          </Box>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            {d.tech_stack
+              .split(",")
+              .map((tech) => tech.trim())
+              .map((techStack) => (
+                <TechStackTag key={techStack} techStack={techStack} />
+              ))}
           </Box>
         </Card>
       ))}

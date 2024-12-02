@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Box, TextField, Button, Typography, Stack } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom'; 
-import { getAllBlog } from '../apis/apiFunctions';
+import React, { useEffect, useState } from "react";
+import { Box, TextField, Button, Typography, Stack } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import { getAllBlog } from "../apis/apiFunctions";
 
 interface BlogPost {
-    BlogId: number;
-    Title: string;
-    Author: string;
-    PublishedDate: string;
-    Content: string;
-    Image: string;
-    Tags: string | null;
-    UserId: number;
+  BlogId: number;
+  Title: string;
+  Author: string;
+  PublishedDate: string;
+  Content: string;
+  Image: string;
+  Tags: string | null;
+  UserId: number;
 }
 
 const BlogPage: React.FC = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [postData, setPostData] = useState<BlogPost[]>([]);  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [postData, setPostData] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const BlogPage: React.FC = () => {
   }, []);
 
   const handleAddNewBlog = () => {
-    navigate('/new-blog');
+    navigate("/new-blog");
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +68,7 @@ const BlogPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 4, p: 3 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 }}>
       <Typography variant="h4" gutterBottom>
         Blog
       </Typography>
@@ -81,14 +81,15 @@ const BlogPage: React.FC = () => {
           onChange={handleSearchChange}
           fullWidth
         />
-        <Button variant="contained" color="primary" onClick={() => filterPosts(searchQuery)}>
+        {/* <Button variant="contained" color="primary" onClick={() => filterPosts(searchQuery)}>
           Search
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           color="secondary"
           startIcon={<AddIcon />}
           onClick={handleAddNewBlog}
+          sx={{ width: "250px" }}
         >
           Add New Blog
         </Button>
@@ -99,24 +100,28 @@ const BlogPage: React.FC = () => {
       ) : (
         <Stack spacing={3}>
           {filteredPosts.map((post) => (
-            <Box key={post.UserId} sx={{ border: '1px solid #ccc', p: 2, borderRadius: 2 }}>
+            <Box
+              key={post.UserId}
+              sx={{ border: "1px solid #ccc", p: 2, borderRadius: 2 }}
+            >
               <Typography variant="h6">{post.Title}</Typography>
               <Typography variant="body2" color="text.secondary">
-                By {post.Author} | {new Date(post.PublishedDate).toLocaleDateString()}
+                By {post.Author} |{" "}
+                {new Date(post.PublishedDate).toLocaleDateString()}
               </Typography>
               <Typography
-  variant="body1"
-  sx={{
-    whiteSpace: 'pre-wrap', // Preserve line breaks
-    overflow: 'hidden', // Hide extra content
-    textOverflow: 'ellipsis', // Add "..." at the end
-    display: '-webkit-box', // Enable line clamping
-    WebkitBoxOrient: 'vertical', // Vertical box orientation
-    WebkitLineClamp: 3, // Limit to 3 lines
-  }}
->
-  {post.Content}
-</Typography>
+                variant="body1"
+                sx={{
+                  whiteSpace: "pre-wrap", // Preserve line breaks
+                  overflow: "hidden", // Hide extra content
+                  textOverflow: "ellipsis", // Add "..." at the end
+                  display: "-webkit-box", // Enable line clamping
+                  WebkitBoxOrient: "vertical", // Vertical box orientation
+                  WebkitLineClamp: 3, // Limit to 3 lines
+                }}
+              >
+                {post.Content}
+              </Typography>
 
               {/* View Details Button */}
               <Button

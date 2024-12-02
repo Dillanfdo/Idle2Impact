@@ -25,13 +25,14 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useUser();
+
   return user ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 const App: React.FC = () => {
   return (
-    <UserProvider>
-      <Router>
+    <Router>
+      <UserProvider>
         <Header />
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -88,8 +89,8 @@ const App: React.FC = () => {
           {/* Blog Detail Page */}
           <Route path="/blogdetail/:id" element={<BlogDetail />} />
         </Routes>
-      </Router>
-    </UserProvider>
+      </UserProvider>
+    </Router>
   );
 };
 

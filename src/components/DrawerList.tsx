@@ -50,21 +50,28 @@ const DrawerList = ({
   return (
     <Box sx={{ width: 250 }} component={"div"} role="presentation">
       <List>
-        {["Home", "Profile", "Actions", "Add New Post", "Blogs"].map(
-          (text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton onClick={() => navigateFunc(text)}>
-                <ListItemIcon>
-                  {index === 0 && <Home />}
-                  {index === 1 && <Person2Icon />}
-                  {index === 2 && <PendingActionsIcon />}
-                  {index === 3 && <AddIcon />}
-                  {index === 4 && <WebIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          )
+        {["Home", "Profile", "Actions", "Blogs"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton onClick={() => navigateFunc(text)}>
+              <ListItemIcon>
+                {index === 0 && <Home />}
+                {index === 1 && <Person2Icon />}
+                {index === 2 && <PendingActionsIcon />}
+                {index === 3 && <WebIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+        {user?.role === "Mentor" && (
+          <ListItem key={"Users"} disablePadding>
+            <ListItemButton onClick={() => navigateFunc("Add New Post")}>
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Add New Post"} />
+            </ListItemButton>
+          </ListItem>
         )}
         {user?.role === "Admin" && (
           <ListItem key={"Users"} disablePadding>
