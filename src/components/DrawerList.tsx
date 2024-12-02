@@ -24,7 +24,6 @@ const DrawerList = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useUser();
-  console.log(user, "dillan");
   const navigateFunc = (val: string) => {
     switch (val) {
       case "Home":

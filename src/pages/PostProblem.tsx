@@ -67,9 +67,6 @@ const ProjectForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log("Form Data:", data);
-    console.log("Uploaded Files:", uploadedFiles);
-    console.log("Tech Stack:", techStack);
     try {
       const postdata: any = {
         MentorId: user?.user_id,

@@ -23,7 +23,7 @@ import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import { getposts } from "../apis/apiFunctions";
 import { ProblemInfoType, EnrolledUsers } from "../types/problemInfo";
-import { getenrolledusers , updatestatus} from "../apis/apiFunctions";
+import { getenrolledusers , updatestatus, downloadfile, closetask} from "../apis/apiFunctions";
 
 
 const Actions = () => {
@@ -50,10 +50,8 @@ const Actions = () => {
     const fetchPosts = async () => {
       try {
         const result = await getposts();
-        console.log("Fetched result:", result); 
         if (result.status === 1) {
           const feeds= JSON.parse(result.data).Table;
-          console.log("feeds- ", feeds)
           let filteredFeeds= [];
           if(user?.role==="Mentor"){
             filteredFeeds = feeds.filter((feed: any) => feed.mentor_id === user?.user_id);
@@ -78,6 +76,8 @@ const Actions = () => {
     if(users.status==1){
       const parsedData = JSON.parse(users.data).Table;
       setEnrolledusers(parsedData);
+    }else{
+      setEnrolledusers([]);
     }
   }
   const updateenrolledstatus = async(id: number, taskid: number, status: number)=>{
@@ -96,6 +96,27 @@ const Actions = () => {
     }else{
       alert("Failed to Update the task")
     }
+  }
+
+  const closetasks = async(taskid: number)=>{
+    const result = await closetask(taskid);
+    if(result.status==1){
+        alert("Task Closed Successfully")
+      }else{
+        alert("Failed to Close")
+      }
+  }
+
+  const downloadFile = async(path: string, filename:string)=>{
+    const data = await downloadfile(path); 
+    const fileName = filename
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
@@ -156,9 +177,22 @@ const Actions = () => {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                   <Collapse in={open === index} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 3 }}>
-                      <Typography variant="h6" gutterBottom component="div">
-                        Applied Mentees
-                      </Typography>
+                        <Box display="flex" alignItems="center">
+                          <Typography variant="h6" gutterBottom component="div" sx={{ marginRight: '10px' }}>
+                            Applied Mentees
+                          </Typography>
+                          <Button onClick={()=> closetasks(row.task_id)}
+                            variant="contained"
+                            sx={{
+                              width: "100px",
+                              height: "25px",
+                              fontSize: "10px",
+                              fontWeight: 300,
+                            }}
+                          >
+                            Close Task
+                          </Button>
+                        </Box>                  
                       <Table size="small" aria-label="purchases">
                         <TableHead>
                           <TableRow>
@@ -186,16 +220,19 @@ const Actions = () => {
                                 {moment(data.created_at).format("MMM DD, YYYY")}
                               </TableCell>
                               <TableCell align="right">
-                                {data.enrolled_status==="Declined" && 
-                                  <Button onClick={() => updateenrolledstatus(data.enrolledid, row.task_id,2)}>
-                                  <DoneOutlineIcon sx={{ color: "green" }} />
-                                </Button>
+                                {(data.enrolled_status === "Declined" || data.enrolled_status === "Pending") && 
+                                  <Button onClick={() => updateenrolledstatus(data.enrolledid, row.task_id, 2)}>
+                                    <DoneOutlineIcon sx={{ color: "green" }} />
+                                  </Button>
                                 }
-                                {data.enrolled_status==="Approved" &&
-                                <Button onClick={() => updateenrolledstatus(data.enrolledid, row.task_id,3)}>
-                                  <DoNotDisturbIcon sx={{ color: "red" }} />
-                                </Button>
-                                  }
+                                {(data.enrolled_status === "Approved" || data.enrolled_status === "Pending") &&
+                                  <Button onClick={() => updateenrolledstatus(data.enrolledid, row.task_id, 3)}>
+                                    <DoNotDisturbIcon sx={{ color: "red" }} />
+                                  </Button>
+                                }
+                                {
+                                  row.status==="Completed" && <Link sx={{ cursor: "pointer" }} onClick={()=>downloadFile(data.file_path, data.file_name)}>Download Files</Link>
+                                }                                
                               </TableCell>
                             </TableRow>
                           ))}

@@ -15,6 +15,9 @@ export const api_endpoints = {
   SEARCH_BLOG_POST: '/api/Blog/SearchBlogs',// Modify this according to your API
   GET_ENROLLED_USER: '/api/Mentor/GetEnrolledUsers',
   UPDATE_ENROLLED_STATUS: '/api/Mentor/UpdateEnrolledStatus',
+  UPDATE_POST: '/api/Employee/UpdatePost',
+  DOWNLOAD_FILE: '/api/Mentor/DownloadFile',
+  CLOSE_TASK: '/api/Mentor/CloseTask',
 };
 
 // Function to validate user login
@@ -78,9 +81,29 @@ export const getenrolledusers = async (taskid: any) => {
   }
 };
 
+export const downloadfile = async (path: string) => {
+  try {
+    const url = `${api_endpoints.DOWNLOAD_FILE}?path=${encodeURIComponent(path)}`;
+    const response = await apiClient.get(url);
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
 export const updatestatus = async (id: number,_taskid:number, status: number) => {
   try {
     const url = `${api_endpoints.UPDATE_ENROLLED_STATUS}?enrolledid=${encodeURIComponent(id)}&status=${encodeURIComponent(status)}&taskid=${encodeURIComponent(_taskid)}`;
+    const response = await apiClient.get(url);
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
+export const closetask = async (_taskid:number) => {
+  try {
+    const url = `${api_endpoints.CLOSE_TASK}?taskid=${encodeURIComponent(_taskid)}`;
     const response = await apiClient.get(url);
     return response.data;
   } catch (error: any) {
@@ -102,6 +125,19 @@ export const getposts = async () => {
   try {
     const url = `${api_endpoints.GET_POSTS}`;
     const response = await apiClient.get(url);
+    return response.data;
+  } catch (error: any) {
+    throw handleApiError(error);
+  }
+};
+
+export const updatePost = async (formData: any) => {
+  try {
+    const response = await apiClient.post(api_endpoints.UPDATE_POST, formData, {
+      headers: {
+        'Content-Type': 'application/json', // Set content type to JSON
+      }
+    });
     return response.data;
   } catch (error: any) {
     throw handleApiError(error);

@@ -20,4 +20,6 @@ export type EnrolledUsers = {
   email: string;
   enrolled_status: string;
   created_at: string;
+  file_name: string;
+  file_path: string;
 };
