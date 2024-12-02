@@ -35,13 +35,13 @@ const ProblemInfo = () => {
   const getColor = (status: any) => {
     switch (status) {
       case "Approved":
+      case "Completed":
+      case "Submitted":
         return "green";
       case "Declined":
         return "red";
       case "Pending":
         return "grey";
-      case "Completed":
-        return "green";
       case "Closed":
         return "#0076a8";
     }

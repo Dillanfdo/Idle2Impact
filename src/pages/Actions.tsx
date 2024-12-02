@@ -292,7 +292,7 @@ const Actions = () => {
                                       <DoNotDisturbIcon sx={{ color: "red" }} />
                                     </Button>
                                   )}
-                                  {row.status === "Completed" && (
+                                  {row.status === "Submitted" && (
                                     <Link
                                       sx={{ cursor: "pointer" }}
                                       onClick={() =>
